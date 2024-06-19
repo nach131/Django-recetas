@@ -12,3 +12,5 @@ para saber los error de syntax en el codido
 lanzar docker para crear el proyeto, docker se para y se borra
 
 docker compose run --rm app sh -c "django-admin startproject app .
+
+esto para comentar
