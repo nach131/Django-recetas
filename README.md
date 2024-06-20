@@ -2,7 +2,7 @@
 
 para saber los error de syntax en el codido
 
- docker composr run --rm app sh -c "flake8"
+ docker compose run --rm app sh -c "flake8"
  
 
  Para testear Django
