@@ -17,3 +17,9 @@ docker compose run --rm app sh -c "django-admin startproject app ."
 crea core
 docker compose run --rm app sh -c "django-admin startapp core"
 
+=====================
+
+python manage.py makemigrations
+
+python manage.py migrate
+
