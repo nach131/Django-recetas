@@ -24,11 +24,16 @@ services:
   db:
     image: postgres:13-alpine
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=devdb
       - POSTGRES_USER=devuser
       - POSTGRES_PASSWORD=tomate
 
-# volumes:
-#   db_data:
+volumes:
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./data/db
+      o: bind
