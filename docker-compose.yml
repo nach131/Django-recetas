@@ -1,6 +1,7 @@
 
 services:
   app:
+    container_name: app
     build:
       context: .
       args:
@@ -22,6 +23,7 @@ services:
       - db
 
   db:
+    container_name: db
     image: postgres:13-alpine
     volumes:
       - db_data:/var/lib/postgresql/data
