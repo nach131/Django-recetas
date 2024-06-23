@@ -24,7 +24,7 @@ class ModelTest(TestCase):
         """Tests email is normalized for new users."""
         sample_emails = [
             ['test1@42BARCELONA.com', 'test1@42barcelona.com'],
-            ['Test2@42Barcelona.com' ,'Test2@42barcelona.com'],
+            ['Test2@42Barcelona.com', 'Test2@42barcelona.com'],
             ['TEST3@42BARCELONA.COM', 'TEST3@42barcelona.com'],
             ['test4@42barcelona.COM', 'test4@42barcelona.com'],
         ]
@@ -36,3 +36,12 @@ class ModelTest(TestCase):
         """Tets that creating new user without email"""
         with self.assertRaises(ValueError):
             get_user_model().objects.create_user('', 'pass12345')
+
+    def test_create_superuser(self):
+        """Test creating superuser"""
+        user = get_user_model().objects.create_superuser(
+            'supertest@42barcelona.com',
+            'superpass12345',
+        )
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(user.is_staff)
