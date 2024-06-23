@@ -11,10 +11,10 @@ para saber los error de syntax en el codido
 
 lanzar docker para crear el proyeto, docker se para y se borra
 
-crea app 
+crea el proyecto
 docker compose run --rm app sh -c "django-admin startproject app ."
 
-crea core
+crea una app "core"
 docker compose run --rm app sh -c "django-admin startapp core"
 
 =====================
