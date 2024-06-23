@@ -1,25 +1,30 @@
-from django.test import SimpleTestCase
+"""
+Django admin custom
+"""
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.utils.translation import gettext_lazy as _
+
+from core import models 
+
+class UserAdmin(BaseUserAdmin):
+    ordering = ['id']
+    list_display = ['email', 'name']
+    fieldsets = (
+        (None, {'fields': ('email', 'password')}),
+        (_('Personal Info'), {'fields': ('name',)}),
+        (
+            _('Permissions'),
+            {'fields': ('is_active', 'is_staff', 'is_superuser')}
+        ),
+        (_('Important dates'), {'fields': ('last_login',)})
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'password1', 'password2')
+        }),
+    )
 
 
-@patch('core.management.commands.wait_for_db.Command.check')
-class CommandTests(SimpleTestCase):
-    """Test commands."""
-
-    def test_wait_for_db_ready(self, patched_check):
-        """Test waiting for database if database ready."""
-        patched_check.return_value = True
-
-        call_command('wait_for_db')
-
-        patched_check.assert_called_once_with(databases=['default'])
-
-    @patch('time.sleep')
-    def test_wait_for_db_delay(self, patched_sleep, patched_check):
-        """Test waiting for database when getting OperationalError."""
-        patched_check.side_effect = [Psycopg2OpError] * 2 + \
-            [OperationalError] * 3 + [True]
-
-        call_command('wait_for_db')
-
-        self.assertEqual(patched_check.call_count, 6)
-        patched_check.assert_called_with(databases=['default'])
+admin.site.register(models.User, UserAdmin)
