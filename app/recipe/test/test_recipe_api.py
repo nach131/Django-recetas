@@ -49,7 +49,7 @@ def create_user(**params):
 
 
 class PublicRecipeAPITests(TestCase):
-    """Test unathenticated PI request."""
+    """Test unauthenticated API requests."""
 
     def setUp(self):
         self.client = APIClient()
@@ -126,12 +126,12 @@ class PrivateRecipeApiTests(TestCase):
             self.assertEqual(getattr(recipe, k), v)
         self.assertEqual(recipe.user, self.user)
 
-    def test_partial_upadte(self):
+    def test_partial_update(self):
         """Test partial update of a recipe."""
         original_link = 'https://42barcelona/recipe.pdf'
         recipe = create_recipe(
             user=self.user,
-            title="Sample recipe title",
+            title='Sample recipe title',
             link=original_link,
         )
 
@@ -151,7 +151,7 @@ class PrivateRecipeApiTests(TestCase):
             'title': 'Thai Praw Curry',
             'time_minutes': 30,
             'price': Decimal('2.50'),
-            'tags': [{'name': 'Thai'}, {'name', 'Dinner'}]
+            'tags': [{'name': 'Thai'}, {'name': 'Dinner'}],
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
 
@@ -174,7 +174,7 @@ class PrivateRecipeApiTests(TestCase):
             'title': 'Pongal',
             'time_minutes': 60,
             'price': Decimal('4.50'),
-            'tags': [{'name': 'Indian'}, {'name', 'Braakfast'}]
+            'tags': [{'name': 'Indian'}, {'name': 'Breakfast'}],
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
 
@@ -187,6 +187,6 @@ class PrivateRecipeApiTests(TestCase):
         for tag in payload['tags']:
             exists = recipe.tags.filter(
                 name=tag['name'],
-                user=self.user
+                user=self.user,
             ).exists()
             self.assertTrue(exists)

@@ -1,5 +1,5 @@
 """
-Serializers for the Recipies API View.
+Serializers for recipe APIs
 """
 from rest_framework import serializers
 
@@ -19,7 +19,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
-    """Serializer for the Recipe object."""
+    """Serializer for recipes."""
     tags = TagSerializer(many=True, required=False)
 
     class Meta:
@@ -27,10 +27,10 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'time_minutes', 'price', 'link', 'tags']
         read_only_fields = ['id']
 
-    def create(self, validate_data):
+    def create(self, validated_data):
         """Create a recipe."""
-        tags = validate_data.pop('tags,', [])
-        recipe = Recipe.objects.create(**validate_data)
+        tags = validated_data.pop('tags', [])
+        recipe = Recipe.objects.create(**validated_data)
         auth_user = self.context['request'].user
         for tag in tags:
             tag_obj, created = Tag.objects.get_or_create(
