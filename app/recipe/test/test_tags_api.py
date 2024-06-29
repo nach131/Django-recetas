@@ -1,5 +1,5 @@
 """
-Test for the tags API.
+Tests for the tags API.
 """
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -26,7 +26,7 @@ def create_user(email='user@example.com', password='pass12345'):
     return get_user_model().objects.create_user(email, password)
 
 
-class PublicTagsApiTest(TestCase):
+class PublicTagsApiTests(TestCase):
     """Test unauthenticated API requests."""
 
     def setUp(self):
@@ -39,8 +39,8 @@ class PublicTagsApiTest(TestCase):
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class PrivateTagsApiTest(TestCase):
-    """Test authenticated API request."""
+class PrivateTagsApiTests(TestCase):
+    """Test authenticated API requests."""
 
     def setUp(self):
         self.user = create_user()
@@ -62,7 +62,7 @@ class PrivateTagsApiTest(TestCase):
     def test_tags_limited_to_user(self):
         """Test list of tags is limited to authenticated user."""
         user2 = create_user(email='user2@example.com')
-        Tag.objects.create(user=user2, name="Fruity")
+        Tag.objects.create(user=user2, name='Fruity')
         tag = Tag.objects.create(user=self.user, name='Comfort Food')
 
         res = self.client.get(TAGS_URL)
@@ -84,7 +84,7 @@ class PrivateTagsApiTest(TestCase):
         self.assertEqual(tag.name, payload['name'])
 
     def test_delete_tag(self):
-        """Test deleting a tag"""
+        """Test deleting a tag."""
         tag = Tag.objects.create(user=self.user, name='Breakfast')
 
         url = detail_url(tag.id)
