@@ -349,7 +349,6 @@ class PrivateRecipeApiTests(TestCase):
         new_ingredient = Ingredient.objects.get(user=self.user, name='Limes')
         self.assertIn(new_ingredient, recipe.ingredients.all())
 
-
     def test_update_recipe_assign_ingredient(self):
         """Test assigning an existing ingredient when updating a recipe."""
         ingredient1 = Ingredient.objects.create(user=self.user, name='Pepper')
