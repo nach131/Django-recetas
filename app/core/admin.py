@@ -1,5 +1,5 @@
 """
-Django admin custom
+Django admin customization.
 """
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -14,11 +14,11 @@ class UserAdmin(BaseUserAdmin):
     list_display = ['email', 'name']
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
+        (_('Personal Info'), {'fields': ('name',)}),
         (
             _('Permissions'),
             {
                 'fields': (
-                    'name',
                     'is_active',
                     'is_staff',
                     'is_superuser',
@@ -30,6 +30,7 @@ class UserAdmin(BaseUserAdmin):
     readonly_fields = ['last_login']
     add_fieldsets = (
         (None, {
+            'classes': ('wide',),
             'fields': (
                 'email',
                 'password1',
@@ -38,7 +39,7 @@ class UserAdmin(BaseUserAdmin):
                 'is_active',
                 'is_staff',
                 'is_superuser',
-                ),
+            ),
         }),
     )
 

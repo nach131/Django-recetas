@@ -1,5 +1,5 @@
 """
-Test for models.
+Tests for models.
 """
 from decimal import Decimal
 
@@ -14,7 +14,7 @@ def create_user(email='user@example.com', password='pass12345'):
     return get_user_model().objects.create_user(email, password)
 
 
-class ModelTest(TestCase):
+class ModelTests(TestCase):
     """Test models."""
 
     def test_create_user_with_email_successful(self):
@@ -42,7 +42,7 @@ class ModelTest(TestCase):
             self.assertEqual(user.email, expected)
 
     def test_new_user_without_email_raises_error(self):
-        """Tets that creating new user without email"""
+        """Test that creating a user without an email raises a ValueError."""
         with self.assertRaises(ValueError):
             get_user_model().objects.create_user('', 'pass12345')
 
@@ -72,18 +72,18 @@ class ModelTest(TestCase):
         self.assertEqual(str(recipe), recipe.title)
 
     def test_create_tag(self):
-        """Test create a tag is successful."""
+        """Test creating a tag is successful."""
         user = create_user()
         tag = models.Tag.objects.create(user=user, name="Tag1")
 
         self.assertEqual(str(tag), tag.name)
 
     def test_create_ingredient(self):
-        """Test cresting an ingredient is successful."""
+        """Test creating an ingredient is successful."""
         user = create_user()
         ingredient = models.Ingredient.objects.create(
             user=user,
-            name='Ingedient1'
-        )
+            name='Ingredient1'
+            )
 
         self.assertEqual(str(ingredient), ingredient.name)
