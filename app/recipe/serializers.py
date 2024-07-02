@@ -51,15 +51,15 @@ class RecipeSerializer(serializers.ModelSerializer):
             )
             recipe.tags.add(tag_obj)
 
-    # def _get_or_create_ingredients(self, ingredients, recipe):
-    #     """Handle getting or creating ingredients as needed."""
-    #     auth_user = self.context['request'].user
-    #     for ingredient in ingredients:
-    #         ingredient_obj, created = Ingredient.objects.get_or_create(
-    #             user=auth_user,
-    #             **ingredient,
-    #         )
-    #         recipe.ingredients.add(ingredient_obj)
+    def _get_or_create_ingredients(self, ingredients, recipe):
+        """Handle getting or creating ingredients as needed."""
+        auth_user = self.context['request'].user
+        for ingredient in ingredients:
+            ingredient_obj, created = Ingredient.objects.get_or_create(
+                user=auth_user,
+                **ingredient,
+            )
+            recipe.ingredients.add(ingredient_obj)
 
     def create(self, validated_data):
         """Create a recipe."""

@@ -1,5 +1,5 @@
 """
-Test for the ingredients API.
+Tests for the ingredients API.
 """
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -21,25 +21,25 @@ def detail_url(ingredient_id):
     return reverse('recipe:ingredient-detail', args=[ingredient_id])
 
 
-def create_user(email='user@example.com', password='pass12345'):
+def create_user(email='user@example.com', password='testpass123'):
     """Create and return a new user."""
     return get_user_model().objects.create_user(email, password)
 
 
-class PublicIngredientsApiTest(TestCase):
+class PublicIngredientsApiTests(TestCase):
     """Test unauthenticated API requests."""
 
     def setUp(self):
         self.client = APIClient()
 
     def test_auth_required(self):
-        """Test auth is required for retrieving tags."""
+        """Test auth is required for retrieving ingredients."""
         res = self.client.get(INGREDIENTS_URL)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class PrivateIngredientsApiTest(TestCase):
+class PrivateIngredientsApiTests(TestCase):
     """Test authenticated API requests."""
 
     def setUp(self):
@@ -54,8 +54,8 @@ class PrivateIngredientsApiTest(TestCase):
 
         res = self.client.get(INGREDIENTS_URL)
 
-        ingredient = Ingredient.objects.all().order_by('-name')
-        serializer = IngredientSerializer(ingredient, many=True)
+        ingredients = Ingredient.objects.all().order_by('-name')
+        serializer = IngredientSerializer(ingredients, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
 
@@ -63,14 +63,14 @@ class PrivateIngredientsApiTest(TestCase):
         """Test list of ingredients is limited to authenticated user."""
         user2 = create_user(email='user2@example.com')
         Ingredient.objects.create(user=user2, name='Salt')
-        ingredinet = Ingredient.objects.create(user=self.user, name='Pepper')
+        ingredient = Ingredient.objects.create(user=self.user, name='Pepper')
 
         res = self.client.get(INGREDIENTS_URL)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(res.data), 1)
-        self.assertEqual(res.data[0]['name'], ingredinet.name)
-        self.assertEqual(res.data[0]['id'], ingredinet.id)
+        self.assertEqual(res.data[0]['name'], ingredient.name)
+        self.assertEqual(res.data[0]['id'], ingredient.id)
 
     def test_update_ingredient(self):
         """Test updating an ingredient."""
