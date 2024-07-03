@@ -10,7 +10,7 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
-      - static_data:/vol/web
+      - static-data:/vol/web
     command: >
       sh -c "python manage.py wait_for_db &&
               python manage.py migrate &&
@@ -20,6 +20,7 @@ services:
       - DB_NAME=devdb
       - DB_USER=devuser
       - DB_PASS=tomate
+      - DEBUG=1
     depends_on:
       - db
 
@@ -27,7 +28,7 @@ services:
     container_name: db
     image: postgres:13-alpine
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=devdb
       - POSTGRES_USER=devuser
@@ -41,13 +42,13 @@ services:
       - 8080:8080
 
 volumes:
-  db_data:
+  db-data:
     driver: local
     driver_opts:
       type: none
       device: ./data/db
       o: bind
-  static_data:
+  static-data:
     driver: local
     driver_opts:
       type: none
