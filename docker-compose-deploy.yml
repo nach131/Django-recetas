@@ -30,6 +30,7 @@ services:
       - POSTGRES_PASSWORD=${DB_PASS}
 
   proxy:
+    container_name: proxy
     build:
       context: ./proxy
     restart: always 
