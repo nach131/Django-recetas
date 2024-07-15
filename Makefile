@@ -35,6 +35,11 @@ control:
 	@echo "Control flake8.."
 	@docker compose run --rm app sh -c "flake8"
 
+mi:
+	@echo "Running Migrations..."
+	@docker compose run --rm app sh -c "python manage.py makemigrations"
+	@docker compose run --rm app sh -c "python manage.py migrate"
+
 test:
 	@echo "Running Django test..."
 	@docker compose run --rm app sh -c "python manage.py test"
