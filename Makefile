@@ -21,7 +21,7 @@ up:
 	@echo "Running setup tasks..."
 	@docker compose run --rm app sh -c "python manage.py makemigrations"
 	@docker compose run --rm app sh -c "python manage.py test"
-	@docker compose up -d
+	@docker compose up
 
 super:
 	@echo "Creating superuser..."
